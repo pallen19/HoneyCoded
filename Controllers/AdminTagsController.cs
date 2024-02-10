@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Blog.Web.Data;
+using Blog.Web.Models.Domain;
+using Blog.Web.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -11,11 +14,11 @@ namespace Blog.Web.Controllers
     
     public class AdminTagsController : Controller
     {
-        private readonly ILogger<AdminTagsController> _logger;
-
-        public AdminTagsController(ILogger<AdminTagsController> logger)
+        private readonly BlogDbContext dbContext;
+        public AdminTagsController(BlogDbContext dbContext)
         {
-            _logger = logger;
+            this.dbContext = dbContext;
+            
         }
 
         [HttpGet]
@@ -31,12 +34,16 @@ namespace Blog.Web.Controllers
         }
 
         [HttpPost]
-        [ActionName("Add")]
-        public IActionResult SubmitTag()
+        public IActionResult Add(AddTagRequest addTagRequest)
         {
-            var name = Request.Form["name"];
-            var displayName = Request.Form["displayName"];
+            // Mapping AddTagRequest to Tag Domain Model 
+            var tag = new Tag{
+                Name = addTagRequest.Name,
+                DisplayName =  addTagRequest.DisplayName
+            };
 
+           dbContext.Tags.Add(tag);
+           dbContext.SaveChanges();
             return View("Add");
         }
     }
