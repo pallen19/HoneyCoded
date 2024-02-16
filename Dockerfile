@@ -17,6 +17,7 @@ RUN dotnet build "Blog.Web.csproj" -c $configuration -o /app/build
 
 FROM build AS publish
 ARG configuration=Release
+COPY . .
 RUN dotnet publish "Blog.Web.csproj" -c $configuration -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
