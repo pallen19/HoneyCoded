@@ -11,14 +11,14 @@ using Microsoft.Extensions.Logging;
 
 namespace Blog.Web.Controllers
 {
-    
+
     public class AdminTagsController : Controller
     {
         private readonly BlogDbContext dbContext;
         public AdminTagsController(BlogDbContext dbContext)
         {
             this.dbContext = dbContext;
-            
+
         }
 
         [HttpGet]
@@ -37,13 +37,15 @@ namespace Blog.Web.Controllers
         public IActionResult Add(AddTagRequest addTagRequest)
         {
             // Mapping AddTagRequest to Tag Domain Model 
-            var tag = new Tag{
+            var tag = new Tag
+            {
                 Name = addTagRequest.Name,
-                DisplayName =  addTagRequest.DisplayName
-            };
+                DisplayName = addTagRequest.DisplayName,
+                BlogPost = addTagRequest.BlogPost
+            };      
 
-           dbContext.Tags.Add(tag);
-           dbContext.SaveChanges();
+            dbContext.Tags.Add(tag);
+            dbContext.SaveChanges();
             return View("Add");
         }
     }
