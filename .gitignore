@@ -354,6 +354,7 @@ ASALocalRun/
 
 # MSBuild Binary and Structured Log
 *.binlog
+*.bin
 
 # NVidia Nsight GPU debugger configuration file
 *.nvuser
@@ -475,3 +476,5 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+obj/*
